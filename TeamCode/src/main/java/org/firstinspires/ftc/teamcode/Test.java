@@ -51,12 +51,12 @@ public class Test extends OpMode {
     public void fly(double flywheelSpeed) {
         flywheel1.setPower(flywheelSpeed);
         flywheel2.setPower(-flywheelSpeed);
-        TPUflapper.setPower(flywheelSpeed);
+        TPUflapper.setPower(-flywheelSpeed);
     }
 
     public void intake(double intakePower) {
         intake.setPower(-intakePower);
-        TPUflapper.setPower(intakePower);
+        TPUflapper.setPower(-intakePower);
     }
 
     VisionPortal portal1;
@@ -132,16 +132,18 @@ public class Test extends OpMode {
         if (gamepad1.right_trigger > 0 && !gamepad1.dpad_down) {
             fly(flySpeed);
             topintake.setPower(-1);
-            bottomIntake.setPower(-1);
+            TPUflapper.setPower(-1);
+            bottomIntake.setPower(1);
         } else if(gamepad1.right_trigger == 0 && !gamepad1.dpad_down) {
             fly(0);
             topintake.setPower(0);
+            TPUflapper.setPower(0);
             bottomIntake.setPower(0);
         }
         if(gamepad1.dpad_down){
             intake(1);
             topintake.setPower(1);
-            bottomIntake.setPower(1);
+            bottomIntake.setPower(-1);
             fly(-1);
         }
         if (gamepad1.left_trigger > 0) {
