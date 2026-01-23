@@ -56,7 +56,7 @@ public class Test extends OpMode {
 
     public void intake(double intakePower) {
         intake.setPower(-intakePower);
-        TPUflapper.setPower(-intakePower);
+       // TPUflapper.setPower(-intakePower);
     }
 
     VisionPortal portal1;
