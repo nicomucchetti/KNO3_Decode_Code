@@ -19,6 +19,7 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 @TeleOp(name = "NewTele")
 public class NewTele extends OpMode {
     HALLayer hal = new HALLayer();
+
     @Override
     public void init() {
 
@@ -31,5 +32,15 @@ public class NewTele extends OpMode {
         double strafe = gamepad1.right_stick_x * 0.95;
         double turn = gamepad1.left_stick_x * 0.95;
         hal.drive(speed, strafe, turn);
+        if(gamepad1.left_trigger > 0){
+            hal.turnOnIntake();
+        } else {
+            hal.turnOffIntake();
+        }
+        if(gamepad1.right_trigger > 0){
+            hal.turnOnShooter();
+        } else {
+            hal.turnOffShooter();
+        }
     }
 }
