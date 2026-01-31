@@ -11,12 +11,13 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 @TeleOp(name = "NewTeleSpeed")
 public class NewTeleSpeed extends OpMode {
     HALLayerSpeed hal = new HALLayerSpeed();
-    private float flyspeed = 2200.0f;
+
 
     @Override
     public void init() {
 
         hal.initHardware(hardwareMap);
+        hal.startTLM(telemetry);
     }
 
     @Override
@@ -25,6 +26,14 @@ public class NewTeleSpeed extends OpMode {
         double strafe = gamepad1.right_stick_x * 0.95;
         double turn = gamepad1.left_stick_x * 0.95;
         hal.drive(speed, strafe, turn);
+        if(gamepad1.left_bumper){
+            hal.changeSpeed(-0.03f);
+        }
+        if(gamepad1.right_bumper){
+            hal.changeSpeed(0.03f);
+        }
+        hal.addTLM("Flyspeed", hal.getSpeed(), telemetry);
+
         if(gamepad1.left_trigger > 0 && !gamepad1.dpad_down){
             hal.turnOnIntake();
         } else if(gamepad1.left_trigger == 0 && !gamepad1.dpad_down) {
@@ -33,12 +42,12 @@ public class NewTeleSpeed extends OpMode {
             hal.backLoad();
         }
         if(gamepad1.right_trigger > 0 && !gamepad1.dpad_down){
-            hal.turnOnShooter(flyspeed);
+            hal.turnOnShooter();
         } else if (gamepad1.right_trigger == 0 && !gamepad1.dpad_down){
             hal.turnOffShooter();
         }
        // telemetry.addData("BL Speed", hal.getBLSpeed());
-        //telemetry.update();
+        hal.updateTLM(telemetry);
         sleep(1);
     }
 }

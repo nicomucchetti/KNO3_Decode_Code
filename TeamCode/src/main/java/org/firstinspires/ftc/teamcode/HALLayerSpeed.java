@@ -4,6 +4,8 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 //This
 //import org.firstinspires.ftc.robotcore.external.hardware;
 
@@ -23,6 +25,8 @@ public class HALLayerSpeed {
     private CRServo topintake;
     private DcMotorEx flywheel1;
     private DcMotorEx flywheel2;
+    private float actualSpeed = 10.0f;
+    private float flyspeed = 2200.0f;
 
 
     public void initHardware(HardwareMap hardwareMap){
@@ -45,9 +49,29 @@ public class HALLayerSpeed {
         flywheel2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
     }
+    public void startTLM(Telemetry tlm){
+        tlm.addLine("Started!");
+    }
+    public void addTLM(String caption, double num, Telemetry tlm){
+        tlm.addData(caption, num);
+    }
+    public void updateTLM(Telemetry tlm){
+        tlm.update();
+    }
     private void setFlywheel(float flySpeed){
         flywheel1.setVelocity(flySpeed);
         flywheel2.setVelocity(-flySpeed);
+    }
+    public void changeSpeed(float change){
+        actualSpeed += change;
+        if(actualSpeed > 10.0f){
+            actualSpeed = 10.0f;
+        }
+        flyspeed = actualSpeed * 300;
+
+    }
+    public float getSpeed(){
+        return actualSpeed;
     }
     private void setTopintake(float speed){
         topintake.setPower(-speed);
@@ -65,10 +89,11 @@ public class HALLayerSpeed {
         setTopintake(0);
         setFlywheel(0);
     }
-    public void turnOnShooter(float flyspeed){
+    public void turnOnShooter(){
         setTopintake(1);
         setFlywheel(flyspeed);
     }
+
     public void turnOffIntake(){
         setIntakeHex(0);
         setBottomIntake(0);
@@ -80,7 +105,7 @@ public class HALLayerSpeed {
         setTPUflapper(1);
     }
     public void backLoad(){
-        setIntakeHex(1);
+        //setIntakeHex(1);
         setBottomIntake(-1);
         setTPUflapper(-1);
         setTopintake(-1);
