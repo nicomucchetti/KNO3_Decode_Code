@@ -67,7 +67,7 @@ public class HALLayerSpeed {
         if(actualSpeed > 10.0f){
             actualSpeed = 10.0f;
         }
-        flyspeed = actualSpeed * 300;
+        flyspeed = actualSpeed* 250;
 
     }
     public float getSpeed(){

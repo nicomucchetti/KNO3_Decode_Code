@@ -30,11 +30,11 @@ public class NewAuto extends OpMode {
 
         hal.addTLM("Flyspeed", hal.getSpeed(), telemetry);
 
-        hal.drive(-1.0f, 0.0f, 0.0f);
+        hal.drive(-0.25f, 0.0f, 0.0f);
         sleep(1300);
         hal.turnOnIntake();
         hal.turnOnShooter();
-        sleep(5000);
+        sleep(8000);
         hal.turnOffIntake();
         hal.turnOffShooter();
         hal.drive(0.0f, -1.0f, 0.0f);
@@ -42,6 +42,7 @@ public class NewAuto extends OpMode {
         hal.drive(0.0f, 0.0f, 0.0f);
        // telemetry.addData("BL Speed", hal.getBLSpeed());
         hal.updateTLM(telemetry);
-        sleep(1);
+        sleep(100000000);
+
     }
 }
