@@ -44,7 +44,7 @@ public class Main_Auto extends LinearOpMode {
         flywheel1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         flywheel2 = hardwareMap.get(DcMotor.class, "flywheel2");
         flywheel2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        topintake2 = hardwareMap.get(CRServo.class, "bottomIntake");
+        topintake2 = hardwareMap.get(CRServo.class, "bottomintake");
         topintake = hardwareMap.get(CRServo.class, "topintake");
         intake12 = hardwareMap.get(CRServo.class, "TPUflapper");
 
