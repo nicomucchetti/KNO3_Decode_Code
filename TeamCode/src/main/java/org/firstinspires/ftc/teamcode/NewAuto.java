@@ -38,6 +38,8 @@ public class NewAuto extends OpMode {
         hal.turnOffIntake();
         hal.turnOffShooter();
         hal.drive(0.0f, -1.0f, 0.0f);
+        sleep(2000);
+        hal.drive(0.0f, 0.0f, 0.0f);
        // telemetry.addData("BL Speed", hal.getBLSpeed());
         hal.updateTLM(telemetry);
         sleep(1);
