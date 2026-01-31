@@ -65,7 +65,7 @@ public class HALLayerSpeed {
         setTopintake(0);
         setFlywheel(0);
     }
-    public void turnOnShooter(float flyspeed = 2200){
+    public void turnOnShooter(float flyspeed){
         setTopintake(1);
         setFlywheel(flyspeed);
     }
