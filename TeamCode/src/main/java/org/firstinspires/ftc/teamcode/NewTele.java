@@ -5,6 +5,7 @@ package org.firstinspires.ftc.teamcode;
 
 import static android.os.SystemClock.sleep;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -17,6 +18,7 @@ import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 @TeleOp(name = "NewTele")
+@Disabled
 public class NewTele extends OpMode {
     HALLayer hal = new HALLayer();
 
@@ -42,5 +44,8 @@ public class NewTele extends OpMode {
         } else {
             hal.turnOffShooter();
         }
+        telemetry.addData("BL Speed", hal.getBLSpeed());
+        telemetry.update();
+        sleep(1);
     }
 }

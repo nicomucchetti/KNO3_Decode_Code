@@ -1,23 +1,14 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.HardwareMap;
-
-
-import static android.os.SystemClock.sleep;
-
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 //This
 //import org.firstinspires.ftc.robotcore.external.hardware;
-import org.firstinspires.ftc.vision.VisionPortal;
-import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
-import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
-public class HALLayer {
+
+
+public class HALLayerSpeed {
     private DcMotorEx frontLeft;
     private DcMotorEx backLeft;
     private DcMotorEx backRight;
@@ -46,19 +37,17 @@ public class HALLayer {
         flywheel1 = hardwareMap.get(DcMotorEx.class, "flywheel1");
         flywheel2 = hardwareMap.get(DcMotorEx.class, "flywheel2");
         topintake = hardwareMap.get(CRServo.class, "topintake");
-        backLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        frontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        backRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        frontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        backLeft.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        frontLeft.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        backRight.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        frontRight.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        flywheel1.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        flywheel2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
     }
     private void setFlywheel(float flySpeed){
-        flywheel1.setPower(flySpeed);
-        flywheel2.setPower(-flySpeed);
-    }
-    public double getBLSpeed(){
-        double backLeftVelocity = backLeft.getVelocity();
-        return backLeftVelocity;
+        flywheel1.setVelocity(flySpeed);
+        flywheel2.setVelocity(-flySpeed);
     }
     private void setTopintake(float speed){
         topintake.setPower(-speed);
@@ -76,9 +65,9 @@ public class HALLayer {
         setTopintake(0);
         setFlywheel(0);
     }
-    public void turnOnShooter(){
+    public void turnOnShooter(float flyspeed = 2200){
         setTopintake(1);
-        setFlywheel(1);
+        setFlywheel(flyspeed);
     }
     public void turnOffIntake(){
         setIntakeHex(0);
@@ -90,36 +79,22 @@ public class HALLayer {
         setBottomIntake(1);
         setTPUflapper(1);
     }
+    public void backLoad(){
+        setIntakeHex(1);
+        setBottomIntake(-1);
+        setTPUflapper(-1);
+        setTopintake(-1);
+    }
     public void drive(double speed, double strafe, double turn) {
         turn = -turn;
         double blgoalspeed = -speed - strafe - turn;
-        blgain = 0;
-        if (blspeed > blgoalspeed) {
-            blgain += 0.04;
-        } else if (blspeed < blgoalspeed) {
-            blgain -= 0.04;
-        }
+
         double flgoalspeed = speed - strafe + turn;
-        flgain = 0;
-        if (flspeed / 2400 > flgoalspeed) {
-            flgain += 0.04;
-        } else if (flspeed / 2400 < flgoalspeed) {
-            flgain -= 0.04;
-        }
+
         double brgoalspeed = speed - strafe - turn;
-        brgain = 0;
-        if (brspeed > brgoalspeed) {
-            brgain += 0.04;
-        } else if (brspeed < brgoalspeed) {
-            brgain -= 0.04;
-        }
+
         double frgoalspeed = speed + strafe - turn;
-        frgain = 0;
-        if (frspeed / 2400 > frgoalspeed) {
-            frgain += 0.04;
-        } else if (frspeed / 2400 < frgoalspeed) {
-            frgain -= 0.04;
-        }
+
         if(speed == 0 && strafe == 0 && turn == 0){
             backLeft.setPower(0);
             backRight.setPower(0);
@@ -127,10 +102,15 @@ public class HALLayer {
             frontLeft.setPower(0);
 
         } else {
-            backLeft.setPower(blgoalspeed + blgain);
-            frontLeft.setPower(flgoalspeed + flgain);
-            backRight.setPower(brgoalspeed + brgain);
-            frontRight.setPower(frgoalspeed + frgain);
+            backLeft.setVelocity(blgoalspeed * 2150);
+            backRight.setVelocity(brgoalspeed * 2150);
+            frontLeft.setVelocity(flgoalspeed * 2150);
+            frontRight.setVelocity(frgoalspeed * 2150);
+           //Continue to set these
+          //  backLeft.setPower(blgoalspeed);
+           // frontLeft.setPower(flgoalspeed);
+          //  backRight.setPower(brgoalspeed);
+          //  frontRight.setPower(frgoalspeed);
         }
     }
 }

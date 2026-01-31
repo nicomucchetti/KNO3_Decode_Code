@@ -4,6 +4,7 @@ package org.firstinspires.ftc.teamcode;
 
 import static android.os.SystemClock.sleep;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -18,6 +19,7 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
 
 @TeleOp(name = "Test")
+@Disabled
 public class Test extends OpMode {
     public static boolean equalsWithinTolerance(double a, double b, double tolerance) {
         return Math.abs(a - b) <= tolerance;
