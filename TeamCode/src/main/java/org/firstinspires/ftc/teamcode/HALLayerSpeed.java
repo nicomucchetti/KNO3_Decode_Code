@@ -20,13 +20,14 @@ public class HALLayerSpeed {
     private double frpreviousPos, frpreviousTime, frspeed, frgain = 0;
     private DcMotorEx frontRight;
     private DcMotorEx intake;
+    private DcMotorEx flapperLine;
     private CRServo bottomIntake;
     private CRServo TPUflapper;
     private CRServo topintake;
     private DcMotorEx flywheel1;
     private DcMotorEx flywheel2;
     private float actualSpeed = 10.0f;
-    private float flyspeed = 2200.0f;
+    private double flyspeed = 2200.0f;
 
 
     public void initHardware(HardwareMap hardwareMap){
@@ -41,6 +42,7 @@ public class HALLayerSpeed {
         flywheel1 = hardwareMap.get(DcMotorEx.class, "flywheel1");
         flywheel2 = hardwareMap.get(DcMotorEx.class, "flywheel2");
         topintake = hardwareMap.get(CRServo.class, "topintake");
+        flapperLine = hardwareMap.get(DcMotorEx.class, "flapperLine");
         backLeft.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
         frontLeft.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
         backRight.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
@@ -58,57 +60,40 @@ public class HALLayerSpeed {
     public void updateTLM(Telemetry tlm){
         tlm.update();
     }
-    private void setFlywheel(float flySpeed){
-        flywheel1.setVelocity(flySpeed);
-        flywheel2.setVelocity(-flySpeed);
+    private void setFlywheel(double flySpeed){
+        flywheel2.setVelocity(flySpeed);
+        flywheel1.setVelocity(-flySpeed);
     }
-    public void changeSpeed(float change){
-        actualSpeed += change;
-        if(actualSpeed > 10.0f){
-            actualSpeed = 10.0f;
+    public void changeSpeed(double change){
+        flyspeed += change;
+        if(flyspeed > 1.0){
+            flyspeed = 1.0;
         }
-        flyspeed = actualSpeed* 250;
 
     }
-    public float getSpeed(){
-        return actualSpeed;
-    }
-    private void setTopintake(float speed){
-        topintake.setPower(-speed);
-    }
+    public float getSpeed(){return actualSpeed;}
     private void setIntakeHex(float intakeSpeed){
-        intake.setPower(-intakeSpeed);
+        intake.setPower(intakeSpeed);
     }
-    private void setBottomIntake(float intakeSpeed){
-        bottomIntake.setPower(intakeSpeed);
-    }
-    private void setTPUflapper(float intakeSpeed){
-        TPUflapper.setPower(-intakeSpeed);
-    }
+    public void setFlapperLine(float intakeSpeed) {flapperLine.setPower(-intakeSpeed);}
     public void turnOffShooter(){
-        setTopintake(0);
         setFlywheel(0);
     }
     public void turnOnShooter(){
-        setTopintake(1);
         setFlywheel(flyspeed);
     }
 
     public void turnOffIntake(){
         setIntakeHex(0);
-        setBottomIntake(0);
-        setTPUflapper(0);
+        setFlapperLine(0);
     }
     public void turnOnIntake(){
         setIntakeHex(1);
-        setBottomIntake(1);
-        setTPUflapper(1);
+        setFlapperLine(1);
     }
     public void backLoad(){
-        //setIntakeHex(1);
-        setBottomIntake(-1);
-        setTPUflapper(-1);
-        setTopintake(-1);
+        setIntakeHex(-1);
+        setFlapperLine(-1);
     }
     public void drive(double speed, double strafe, double turn) {
         turn = -turn;

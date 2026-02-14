@@ -27,12 +27,12 @@ public class NewTeleSpeed extends OpMode {
         double turn = gamepad1.left_stick_x * 0.95;
         hal.drive(speed, strafe, turn);
         if(gamepad1.left_bumper){
-            hal.changeSpeed(-0.1f);
+            hal.changeSpeed(-0.1);
         }
         if(gamepad1.right_bumper){
-            hal.changeSpeed(0.1f);
+            hal.changeSpeed(0.1);
         }
-        hal.addTLM("Flyspeed", hal.getSpeed(), telemetry);
+       // hal.addTLM("Flyspeed", hal.getSpeed(telemetry));
 
         if(gamepad1.left_trigger > 0 && !gamepad1.dpad_down){
             hal.turnOnIntake();
